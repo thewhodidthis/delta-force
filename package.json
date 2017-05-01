@@ -1,0 +1,67 @@
+{
+  "name": "delta-force",
+  "version": "0.0.0",
+  "description": "Helps track pointer move",
+  "keywords": [
+    "delta",
+    "mouse"
+  ],
+  "main": "index.js",
+  "module": "index.es",
+  "homepage": "https://github.com/thewhodidthis/delta-force#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thewhodidthis/delta-force.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thewhodidthis/delta-force/issues"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "config": {
+    "remote": "thewhodidthis@zazie:www/example/delta-force/"
+  },
+  "scripts": {
+    "test": "browserify test/*.js | testling -x open",
+    "clear": "npm run clear:dist && npm run clear:logs",
+    "clear:dist": "rm -rf dist/",
+    "clear:logs": "rm -f *.log",
+    "lint": "eslint index.es; exit 0",
+    "lint:test": "eslint test/index.js; exit 0",
+    "start": "npm run build && npm run build:min",
+    "example": "npm run example:build && npm run example:serve",
+    "example:push": "rsync -avruzLPC --exclude=.DS_Store ./example/ $npm_package_config_remote",
+    "example:watch": "rollup -c rollup.example.js -w",
+    "example:build": "rollup -c rollup.example.js",
+    "example:serve": "php -S localhost:8000 -t example/",
+    "build": "rollup -c",
+    "build:min": "uglifyjs dist/delta-force.js -cm > dist/delta-force.min.js",
+    "preversion": "npm start"
+  },
+  "engines": {
+    "node": ">=4.2.4",
+    "npm": ">=3.5.3"
+  },
+  "dependencies": {
+    "bipolar": "latest"
+  },
+  "devDependencies": {
+    "babel-eslint": "latest",
+    "babel-plugin-external-helpers": "latest",
+    "babel-preset-es2015": "latest",
+    "browserify": "latest",
+    "eslint": "latest",
+    "eslint-config-airbnb-base": "latest",
+    "eslint-plugin-import": "latest",
+    "rollup": "latest",
+    "rollup-plugin-babel": "latest",
+    "rollup-plugin-node-resolve": "latest",
+    "rollup-watch": "latest",
+    "tape": "latest",
+    "testling": "latest",
+    "uglify-js": "latest"
+  },
+  "author": "sChzs BkgNns <sotirios.bakagiannis@gmail.com> (https://www.thewhodidthis.com)",
+  "license": "Unlicense"
+}
