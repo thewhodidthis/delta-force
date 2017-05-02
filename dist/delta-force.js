@@ -42,7 +42,7 @@ var deltaForce = function () {
       distance = Math.sqrt(dx * dx + dy * dy);
     }
 
-    return fn(x, y, dist);
+    return fn(x, y, distance);
   };
 
   on('touchstart', function (e) {
