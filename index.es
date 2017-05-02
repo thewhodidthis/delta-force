@@ -9,23 +9,23 @@ const deltaForce = (() => {
   let delta = [0, 0, 0];
   let force = bipolar();
 
-  const onMouseMove = (e) => {
+  const mouseMove = (e) => {
     delta = force(e.clientX, e.clientY, 0);
   };
 
-  const onMouseUp = () => {
+  const mouseUp = () => {
     state = -1;
 
-    off('mouseup', onMouseUp);
-    off('mousemove', onMouseMove);
+    off('mouseup', mouseUp);
+    off('mousemove', mouseMove);
   };
 
   on('mousedown', (e) => {
     state = e.button;
     force = bipolar(e.clientX, e.clientY, 0);
 
-    on('mouseup', onMouseUp);
-    on('mousemove', onMouseMove);
+    on('mouseup', mouseUp);
+    on('mousemove', mouseMove);
   });
 
   const handleTouch = (e, fn) => {

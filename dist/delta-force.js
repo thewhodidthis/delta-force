@@ -10,23 +10,23 @@ var deltaForce = function () {
   var delta = [0, 0, 0];
   var force = bipolar();
 
-  var onMouseMove = function onMouseMove(e) {
+  var mouseMove = function mouseMove(e) {
     delta = force(e.clientX, e.clientY, 0);
   };
 
-  var onMouseUp = function onMouseUp() {
+  var mouseUp = function mouseUp() {
     state = -1;
 
-    off('mouseup', onMouseUp);
-    off('mousemove', onMouseMove);
+    off('mouseup', mouseUp);
+    off('mousemove', mouseMove);
   };
 
   on('mousedown', function (e) {
     state = e.button;
     force = bipolar(e.clientX, e.clientY, 0);
 
-    on('mouseup', onMouseUp);
-    on('mousemove', onMouseMove);
+    on('mouseup', mouseUp);
+    on('mousemove', mouseMove);
   });
 
   var handleTouch = function handleTouch(e, fn) {
