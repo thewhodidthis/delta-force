@@ -1,12 +1,7 @@
 ## Delta force
-> Helps keep track of pointer
+> At least until pointer events come about
 
 ### Setup
 ```sh
 npm install delta-force
-```
-
-### Usage
-```js
-import deltaForce from 'delta-force';
 ```
