@@ -1,5 +1,5 @@
 const test = require('tape');
-const DeltaForce = require('../');
+const deltaForce = require('../');
 
 // Add favicon
 const linkTag = document.createElement('link');
@@ -10,8 +10,6 @@ linkTag.rel = 'icon';
 document.head.appendChild(linkTag);
 
 test('will return', (t) => {
-  const deltaForce = DeltaForce();
-
   t.equal(typeof deltaForce, 'function', 'returns lamda on init');
   t.end();
 });
