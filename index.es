@@ -1,85 +1,94 @@
-import bipolar from 'bipolar';
+const v3 = [0, 0, 0];
+const bipolar = (x, y, z) => {
+  let memo = [x, y, z];
 
-const deltaForce = (() => {
-  // -1: idle, 0: left, 1: middle, 2: right
-  let state = -1;
-  let delta = [0, 0, 0];
-  let force = bipolar();
+  return (x, y, z) => {
+    const next = [x, y, z];
+    const diff = memo.map((v, i) => next[i] - v);
 
-  const on = document.addEventListener;
-  const off = document.removeEventListener;
+    memo = next;
 
-  const handleTouch = (e, fn) => {
-    const x = e.touches[0].pageX;
-    const y = e.touches[0].pageY;
-
-    let dsq = 0;
-
-    if (state === 1) {
-      const dx = x - e.touches[1].pageX;
-      const dy = y - e.touches[1].pageY;
-
-      dsq = (dx * dx) + (dy * dy);
-    }
-
-    return fn(x, y, dsq);
+    return diff;
   };
+};
 
-  const mouseMove = (e) => {
-    delta = force(e.clientX, e.clientY, 0);
-  };
+// -1: idle, 0: left, 1: middle, 2: right
+let state = -1;
+let delta = v3;
+let force = v3;
 
-  const mouseUp = () => {
-    state = -1;
+const on = document.addEventListener;
+const off = document.removeEventListener;
 
-    off('mouseup', mouseUp);
-    off('mousemove', mouseMove);
-  };
+const mouseMove = (e) => {
+  delta = force(e.clientX, e.clientY, 0);
+};
 
-  on('mousedown', (e) => {
-    state = e.button;
-    force = bipolar(e.clientX, e.clientY, 0);
+const mouseUp = () => {
+  state = -1;
 
-    on('mouseup', mouseUp);
-    on('mousemove', mouseMove);
-  });
+  off('mouseup', mouseUp);
+  off('mousemove', mouseMove);
+};
 
-  on('touchstart', (e) => {
-    state = e.touches.length - 1;
-    force = handleTouch(e, bipolar);
-  });
+on('mousedown', (e) => {
+  state = e.button;
+  force = bipolar(e.clientX, e.clientY, 0);
 
-  on('touchmove', (e) => {
-    // Can't rely on viewport meta tag no more
-    // https://twitter.com/thomasfuchs/status/742531231007559680
-    e.preventDefault();
+  on('mouseup', mouseUp);
+  on('mousemove', mouseMove);
+});
 
-    delta = handleTouch(e, force);
-  });
+const handleTouch = (e, fn) => {
+  const x = e.touches[0].pageX;
+  const y = e.touches[0].pageY;
 
-  on('touchend', () => {
-    state = -1;
-  });
+  let dsq = 0;
 
-  on('wheel', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+  if (state === 1) {
+    const dx = x - e.touches[1].pageX;
+    const dy = y - e.touches[1].pageY;
 
-    state = 1;
-    delta = [0, 0, e.deltaY];
-  });
+    dsq = (dx * dx) + (dy * dy);
+  }
 
-  return () => {
-    const x = delta[0];
-    const y = delta[1];
-    const z = delta[2];
+  return fn(x, y, dsq);
+};
 
-    // Reset
-    delta = [0, 0, 0];
+on('touchstart', (e) => {
+  state = e.touches.length - 1;
+  force = handleTouch(e, bipolar);
+});
 
-    return { x, y, z, state };
-  };
-})();
+on('touchmove', (e) => {
+  // Can't rely on viewport meta tag no more
+  // https://twitter.com/thomasfuchs/status/742531231007559680
+  e.preventDefault();
+
+  delta = handleTouch(e, force);
+});
+
+on('touchend', () => {
+  state = -1;
+});
+
+on('wheel', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  state = 1;
+  delta = [0, 0, e.deltaY];
+});
+
+const deltaForce = () => {
+  const x = delta[0];
+  const y = delta[1];
+  const z = delta[2];
+
+  delta = v3;
+
+  return { x, y, z, code: state };
+};
 
 export default deltaForce;
 
