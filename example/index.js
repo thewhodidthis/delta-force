@@ -1,4 +1,4 @@
-import deltaForce from '../index.es';
+import deltaForce from '../';
 
 const info = document.createElement('pre');
 const cube = document.querySelector('.cube');

@@ -3,13 +3,29 @@
 var bipolar = require('bipolar');
 
 var deltaForce = function () {
-  var on = document.addEventListener;
-  var off = document.removeEventListener;
-
   // -1: idle, 0: left, 1: middle, 2: right
   var state = -1;
   var delta = [0, 0, 0];
   var force = bipolar();
+
+  var on = document.addEventListener;
+  var off = document.removeEventListener;
+
+  var handleTouch = function handleTouch(e, fn) {
+    var x = e.touches[0].pageX;
+    var y = e.touches[0].pageY;
+
+    var distance = 0;
+
+    if (state === 1) {
+      var dx = x - e.touches[1].pageX;
+      var dy = y - e.touches[1].pageY;
+
+      distance = Math.sqrt(dx * dx + dy * dy);
+    }
+
+    return fn(x, y, distance);
+  };
 
   var mouseMove = function mouseMove(e) {
     delta = force(e.clientX, e.clientY, 0);
@@ -29,22 +45,6 @@ var deltaForce = function () {
     on('mouseup', mouseUp);
     on('mousemove', mouseMove);
   });
-
-  var handleTouch = function handleTouch(e, fn) {
-    var x = e.touches[0].pageX;
-    var y = e.touches[0].pageY;
-
-    var distance = 0;
-
-    if (state === 1) {
-      var dx = x - e.touches[1].pageX;
-      var dy = y - e.touches[1].pageY;
-
-      distance = Math.sqrt(dx * dx + dy * dy);
-    }
-
-    return fn(x, y, distance);
-  };
 
   on('touchstart', function (e) {
     state = e.touches.length - 1;
