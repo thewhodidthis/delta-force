@@ -3,22 +3,15 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 
 export default {
   entry: 'index.es',
-  interop: false,
   plugins: [
     babel(),
     nodeResolve(),
   ],
-  external: [
-    'bipolar'
-  ],
-  globals: {
-    'bipolar': 'bipolar'
-  },
   targets: [
     {
       format: 'iife',
       sourceMap: true,
-      moduleName: 'DeltaForce',
+      moduleName: 'deltaForce',
       dest: 'dist/delta-force.js'
     },
     {
