@@ -1,113 +1,99 @@
 (function () {
 'use strict';
 
-// Helps report differences
-var bipolar = function bipolar() {
-  for (var _len = arguments.length, prev = Array(_len), _key = 0; _key < _len; _key++) {
-    prev[_key] = arguments[_key];
-  }
+var v3 = [0, 0, 0];
+var bipolar = function bipolar(x, y, z) {
+  var memo = [x, y, z];
 
-  // Reset
-  var memo = prev;
-
-  return function () {
-    for (var _len2 = arguments.length, next = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      next[_key2] = arguments[_key2];
-    }
-
-    // Calculate deltas
+  return function (x, y, z) {
+    var next = [x, y, z];
     var diff = memo.map(function (v, i) {
       return next[i] - v;
     });
 
-    // Save for later
     memo = next;
 
-    // Array of deltas
     return diff;
   };
 };
 
-var deltaForce = function () {
-  // -1: idle, 0: left, 1: middle, 2: right
-  var state = -1;
-  var delta = [0, 0, 0];
-  var force = bipolar();
+// -1: idle, 0: left, 1: middle, 2: right
+var state = -1;
+var delta = v3;
+var force = v3;
 
-  var on = document.addEventListener;
-  var off = document.removeEventListener;
+var on = document.addEventListener;
+var off = document.removeEventListener;
 
-  var handleTouch = function handleTouch(e, fn) {
-    var x = e.touches[0].pageX;
-    var y = e.touches[0].pageY;
+var mouseMove = function mouseMove(e) {
+  delta = force(e.clientX, e.clientY, 0);
+};
 
-    var dsq = 0;
+var mouseUp = function mouseUp() {
+  state = -1;
 
-    if (state === 1) {
-      var dx = x - e.touches[1].pageX;
-      var dy = y - e.touches[1].pageY;
+  off('mouseup', mouseUp);
+  off('mousemove', mouseMove);
+};
 
-      dsq = dx * dx + dy * dy;
-    }
+on('mousedown', function (e) {
+  state = e.button;
+  force = bipolar(e.clientX, e.clientY, 0);
 
-    return fn(x, y, dsq);
-  };
+  on('mouseup', mouseUp);
+  on('mousemove', mouseMove);
+});
 
-  var mouseMove = function mouseMove(e) {
-    delta = force(e.clientX, e.clientY, 0);
-  };
+var handleTouch = function handleTouch(e, fn) {
+  var x = e.touches[0].pageX;
+  var y = e.touches[0].pageY;
 
-  var mouseUp = function mouseUp() {
-    state = -1;
+  var dsq = 0;
 
-    off('mouseup', mouseUp);
-    off('mousemove', mouseMove);
-  };
+  if (state === 1) {
+    var dx = x - e.touches[1].pageX;
+    var dy = y - e.touches[1].pageY;
 
-  on('mousedown', function (e) {
-    state = e.button;
-    force = bipolar(e.clientX, e.clientY, 0);
+    dsq = dx * dx + dy * dy;
+  }
 
-    on('mouseup', mouseUp);
-    on('mousemove', mouseMove);
-  });
+  return fn(x, y, dsq);
+};
 
-  on('touchstart', function (e) {
-    state = e.touches.length - 1;
-    force = handleTouch(e, bipolar);
-  });
+on('touchstart', function (e) {
+  state = e.touches.length - 1;
+  force = handleTouch(e, bipolar);
+});
 
-  on('touchmove', function (e) {
-    // Can't rely on viewport meta tag no more
-    // https://twitter.com/thomasfuchs/status/742531231007559680
-    e.preventDefault();
+on('touchmove', function (e) {
+  // Can't rely on viewport meta tag no more
+  // https://twitter.com/thomasfuchs/status/742531231007559680
+  e.preventDefault();
 
-    delta = handleTouch(e, force);
-  });
+  delta = handleTouch(e, force);
+});
 
-  on('touchend', function () {
-    state = -1;
-  });
+on('touchend', function () {
+  state = -1;
+});
 
-  on('wheel', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
+on('wheel', function (e) {
+  e.preventDefault();
+  e.stopPropagation();
 
-    state = 1;
-    delta = [0, 0, e.deltaY];
-  });
+  state = 1;
+  delta = [0, 0, e.deltaY];
+});
 
-  return function () {
-    var x = delta[0];
-    var y = delta[1];
-    var z = delta[2];
+var deltaForce = function deltaForce() {
+  var x = delta[0];
+  var y = delta[1];
+  var z = delta[2];
 
-    // Reset
-    delta = [0, 0, 0];
+  delta = v3;
 
-    return { x: x, y: y, z: z, state: state };
-  };
-}();
+  return { x: x, y: y, z: z, code: state };
+};
 
 var info = document.createElement('pre');
 var cube = document.querySelector('.cube');
@@ -119,14 +105,14 @@ var zoom = 1;
 var repeat = function repeat() {
   var data = deltaForce();
 
-  switch (data.state) {
+  switch (data.code) {
     case 0:
       spin.x += data.x;
       spin.y += data.y;
 
       break;
     case 1:
-      zoom += data.z * 0.001;
+      zoom += data.z * 0.00001;
 
       break;
     case 2:
@@ -136,8 +122,8 @@ var repeat = function repeat() {
       break;
   }
 
-  if (data.state >= 0) {
-    info.innerHTML = '\n      x: ' + data.x + ',\n      y: ' + data.y + ',\n      z: ' + data.z.toFixed(2) + ',\n      code: ' + data.state + '\n    ';
+  if (data.code >= 0) {
+    info.innerHTML = '\n      x: ' + data.x + ',\n      y: ' + data.y + ',\n      z: ' + data.z.toFixed(2) + ',\n      code: ' + data.code + '\n    ';
   }
 
   cube.style.transform = '\n    translate(' + move.x + 'px, ' + move.y + 'px)\n    rotateX(' + spin.y + 'deg)\n    rotateY(' + spin.x + 'deg)\n    scale(' + zoom + ')\n  ';

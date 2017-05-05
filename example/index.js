@@ -10,14 +10,14 @@ let zoom = 1;
 const repeat = () => {
   const data = deltaForce();
 
-  switch (data.state) {
+  switch (data.code) {
     case 0:
       spin.x += data.x;
       spin.y += data.y;
 
       break;
     case 1:
-      zoom += data.z * 0.001;
+      zoom += data.z * 0.00001;
 
       break;
     case 2:
@@ -27,12 +27,12 @@ const repeat = () => {
       break;
   };
 
-  if (data.state >= 0) {
+  if (data.code >= 0) {
     info.innerHTML = `
       x: ${data.x},
       y: ${data.y},
       z: ${data.z.toFixed(2)},
-      code: ${data.state}
+      code: ${data.code}
     `;
   }
 
