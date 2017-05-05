@@ -13,16 +13,16 @@ const deltaForce = (() => {
     const x = e.touches[0].pageX;
     const y = e.touches[0].pageY;
 
-    let distance = 0;
+    let dsq = 0;
 
     if (state === 1) {
       const dx = x - e.touches[1].pageX;
       const dy = y - e.touches[1].pageY;
 
-      distance = Math.sqrt((dx * dx) + (dy * dy));
+      dsq = (dx * dx) + (dy * dy);
     }
 
-    return fn(x, y, distance);
+    return fn(x, y, dsq);
   };
 
   const mouseMove = (e) => {
