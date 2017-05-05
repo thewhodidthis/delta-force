@@ -41,16 +41,16 @@ var deltaForce = function () {
     var x = e.touches[0].pageX;
     var y = e.touches[0].pageY;
 
-    var distance = 0;
+    var dsq = 0;
 
     if (state === 1) {
       var dx = x - e.touches[1].pageX;
       var dy = y - e.touches[1].pageY;
 
-      distance = Math.sqrt(dx * dx + dy * dy);
+      dsq = dx * dx + dy * dy;
     }
 
-    return fn(x, y, distance);
+    return fn(x, y, dsq);
   };
 
   var mouseMove = function mouseMove(e) {
@@ -126,7 +126,7 @@ var repeat = function repeat() {
 
       break;
     case 1:
-      zoom += data.z * 0.01;
+      zoom += data.z * 0.001;
 
       break;
     case 2:

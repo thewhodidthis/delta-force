@@ -17,7 +17,7 @@ const repeat = () => {
 
       break;
     case 1:
-      zoom += data.z * 0.01;
+      zoom += data.z * 0.001;
 
       break;
     case 2:
