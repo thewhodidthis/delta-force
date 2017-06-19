@@ -1,6 +1,6 @@
 const v3 = [0, 0, 0];
-const bipolar = (x, y, z) => {
-  let memo = [x, y, z];
+const bipolar = (a, b, c) => {
+  let memo = [a, b, c];
 
   return (x, y, z) => {
     const next = [x, y, z];

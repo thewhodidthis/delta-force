@@ -1,8 +1,8 @@
 'use strict';
 
 var v3 = [0, 0, 0];
-var bipolar = function bipolar(x, y, z) {
-  var memo = [x, y, z];
+var bipolar = function bipolar(a, b, c) {
+  var memo = [a, b, c];
 
   return function (x, y, z) {
     var next = [x, y, z];
