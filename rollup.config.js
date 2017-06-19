@@ -10,7 +10,6 @@ export default {
   targets: [
     {
       format: 'iife',
-      sourceMap: true,
       moduleName: 'deltaForce',
       dest: 'dist/delta-force.js'
     },
