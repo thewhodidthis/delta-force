@@ -25,7 +25,9 @@ const repeat = () => {
       move.y += data.y;
 
       break;
-  };
+    default:
+      break;
+  }
 
   if (data.code >= 0) {
     info.innerHTML = `
