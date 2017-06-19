@@ -24,20 +24,12 @@
   },
   "scripts": {
     "test": "browserify test/*.js | testling -x open",
-    "clear": "npm run clear:dist && npm run clear:logs",
-    "clear:dist": "rm -rf dist/",
-    "clear:logs": "rm -f *.log",
-    "lint": "eslint index.es; exit 0",
-    "lint:test": "eslint test/index.js; exit 0",
-    "start": "npm run build && npm run build:min",
+    "lint": "eslint index.es test/*.js",
+    "start": "rollup -c && uglifyjs dist/delta-force.js -cmo dist/delta-force.min.js",
     "example": "npm run example:build && npm run example:serve",
-    "example:push": "rsync -avruzLPC --exclude=.DS_Store ./example/ $npm_package_config_remote",
-    "example:watch": "rollup -c rollup.example.js -w",
     "example:build": "rollup -c rollup.example.js",
     "example:serve": "php -S localhost:8000 -t example/",
-    "build": "rollup -c",
-    "build:min": "uglifyjs dist/delta-force.js -cm > dist/delta-force.min.js",
-    "preversion": "npm start"
+    "example:push": "rsync -avruzLPC --exclude=.DS_Store ./example/ $npm_package_config_remote"
   },
   "engines": {
     "node": ">=4.2.4",
@@ -49,7 +41,7 @@
     "babel-plugin-external-helpers": "latest",
     "babel-preset-es2015": "latest",
     "browserify": "latest",
-    "eslint": "latest",
+    "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "latest",
     "eslint-plugin-import": "latest",
     "rollup": "latest",
