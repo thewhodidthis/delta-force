@@ -14,3 +14,10 @@ test('will return', (t) => {
   t.end();
 });
 
+test('will report', (t) => {
+  const data = deltaForce();
+
+  t.equal(data.code, -1, 'nothing');
+  t.end();
+});
+
