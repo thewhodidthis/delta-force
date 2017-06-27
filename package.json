@@ -1,6 +1,6 @@
 {
   "name": "delta-force",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Helps track pointer move",
   "keywords": [
     "delta",
