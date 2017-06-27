@@ -22,7 +22,6 @@ var state = -1;
 var delta = v3;
 var force = v3;
 
-var on = document.addEventListener;
 var off = document.removeEventListener;
 
 var mouseMove = function mouseMove(e) {
@@ -35,6 +34,8 @@ var mouseUp = function mouseUp() {
   off('mouseup', mouseUp);
   off('mousemove', mouseMove);
 };
+
+var on = document.addEventListener;
 
 on('mousedown', function (e) {
   state = e.button;
@@ -78,12 +79,9 @@ on('touchend', function () {
 });
 
 on('wheel', function (e) {
-  e.preventDefault();
-  e.stopPropagation();
-
   state = 1;
   delta = [0, 0, e.deltaY];
-});
+}, { passive: true });
 
 var deltaForce = function deltaForce() {
   var x = delta[0];
@@ -97,12 +95,13 @@ var deltaForce = function deltaForce() {
 
 var info = document.createElement('pre');
 var cube = document.querySelector('.cube');
+
 var move = { x: 0, y: 0 };
-var spin = Object.assign({}, move);
+var spin = { x: 0, y: 0 };
 
 var zoom = 1;
 
-var repeat = function repeat() {
+var render = function render() {
   var data = deltaForce();
 
   switch (data.code) {
@@ -112,7 +111,7 @@ var repeat = function repeat() {
 
       break;
     case 1:
-      zoom += data.z * 0.00001;
+      zoom += data.z * 0.00005;
 
       break;
     case 2:
@@ -130,7 +129,7 @@ var repeat = function repeat() {
 
   cube.style.transform = '\n    translate(' + move.x + 'px, ' + move.y + 'px)\n    rotateX(' + spin.y + 'deg)\n    rotateY(' + spin.x + 'deg)\n    scale(' + zoom + ')\n  ';
 
-  window.requestAnimationFrame(repeat);
+  window.requestAnimationFrame(render);
 };
 
 document.body.insertBefore(info, cube);
@@ -138,6 +137,6 @@ document.addEventListener('contextmenu', function (e) {
   e.preventDefault();
 });
 
-window.requestAnimationFrame(repeat);
+window.requestAnimationFrame(render);
 
 }());

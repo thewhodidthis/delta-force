@@ -1,13 +1,14 @@
-import deltaForce from '../';
+import deltaForce from '../index.es';
 
 const info = document.createElement('pre');
 const cube = document.querySelector('.cube');
+
 const move = { x: 0, y: 0 };
-const spin = Object.assign({}, move);
+const spin = { x: 0, y: 0 };
 
 let zoom = 1;
 
-const repeat = () => {
+const render = () => {
   const data = deltaForce();
 
   switch (data.code) {
@@ -17,7 +18,7 @@ const repeat = () => {
 
       break;
     case 1:
-      zoom += data.z * 0.00001;
+      zoom += data.z * 0.00005;
 
       break;
     case 2:
@@ -45,7 +46,7 @@ const repeat = () => {
     scale(${zoom})
   `;
 
-  window.requestAnimationFrame(repeat);
+  window.requestAnimationFrame(render);
 };
 
 document.body.insertBefore(info, cube);
@@ -53,5 +54,5 @@ document.addEventListener('contextmenu', (e) => {
   e.preventDefault();
 });
 
-window.requestAnimationFrame(repeat);
+window.requestAnimationFrame(render);
 
