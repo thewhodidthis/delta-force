@@ -17,7 +17,6 @@ let state = -1;
 let delta = v3;
 let force = v3;
 
-const on = document.addEventListener;
 const off = document.removeEventListener;
 
 const mouseMove = (e) => {
@@ -30,6 +29,8 @@ const mouseUp = () => {
   off('mouseup', mouseUp);
   off('mousemove', mouseMove);
 };
+
+const on = document.addEventListener;
 
 on('mousedown', (e) => {
   state = e.button;
@@ -73,12 +74,9 @@ on('touchend', () => {
 });
 
 on('wheel', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-
   state = 1;
   delta = [0, 0, e.deltaY];
-});
+}, { passive: true });
 
 const deltaForce = () => {
   const x = delta[0];

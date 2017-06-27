@@ -21,7 +21,6 @@ var state = -1;
 var delta = v3;
 var force = v3;
 
-var on = document.addEventListener;
 var off = document.removeEventListener;
 
 var mouseMove = function mouseMove(e) {
@@ -34,6 +33,8 @@ var mouseUp = function mouseUp() {
   off('mouseup', mouseUp);
   off('mousemove', mouseMove);
 };
+
+var on = document.addEventListener;
 
 on('mousedown', function (e) {
   state = e.button;
@@ -77,12 +78,9 @@ on('touchend', function () {
 });
 
 on('wheel', function (e) {
-  e.preventDefault();
-  e.stopPropagation();
-
   state = 1;
   delta = [0, 0, e.deltaY];
-});
+}, { passive: true });
 
 var deltaForce = function deltaForce() {
   var x = delta[0];
