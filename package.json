@@ -16,9 +16,6 @@
   "bugs": {
     "url": "https://github.com/thewhodidthis/delta-force/issues"
   },
-  "directories": {
-    "example": "example"
-  },
   "config": {
     "remote": "thewhodidthis@zazie:www/example/delta-force/"
   },
