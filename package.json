@@ -2,10 +2,6 @@
   "name": "delta-force",
   "version": "0.0.7",
   "description": "Helps track pointer move",
-  "keywords": [
-    "delta",
-    "mouse"
-  ],
   "main": "index.js",
   "module": "index.es",
   "homepage": "https://github.com/thewhodidthis/delta-force#readme",
@@ -16,17 +12,18 @@
   "bugs": {
     "url": "https://github.com/thewhodidthis/delta-force/issues"
   },
-  "config": {
-    "remote": "thewhodidthis@zazie:www/example/delta-force/"
-  },
   "scripts": {
-    "test": "browserify test/*.js | testling -x open",
-    "lint": "eslint . example --ext .es test/*.js",
-    "start": "rollup -c && uglifyjs dist/delta-force.js -cmo dist/delta-force.min.js",
-    "example": "npm run example:build && npm run example:serve",
-    "example:build": "rollup -c -i example/index.es -f iife -o example/index.js",
-    "example:serve": "php -S localhost:8000 -t example/",
-    "example:press": "rsync -avruzLPC --delete --exclude=.DS_Store ./example/ $npm_package_config_remote"
+    "pretest": "eslint test.js",
+    "test": "browserify test | kpow",
+    "prestart": "eslint index.es",
+    "start": "rollup -f cjs index.es | buble > index.js",
+    "preexample": "eslint example/index.es",
+    "example": "cd example; rollup -f iife index.es | buble > index.js",
+    "postexample": "open example/index.html",
+    "postpublish": "rsync -avruzLPC --del --exclude=.* ./example/ thewhodidthis@zazie:www/example/delta-force/"
+  },
+  "eslintConfig": {
+    "extends": "@thewhodidthis"
   },
   "engines": {
     "node": ">=4.2.4",
@@ -34,18 +31,13 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "babel-eslint": "latest",
-    "babel-plugin-external-helpers": "latest",
-    "babel-preset-latest": "latest",
+    "@thewhodidthis/eslint-config": "latest",
     "browserify": "latest",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb-base": "latest",
-    "eslint-plugin-import": "latest",
+    "buble": "latest",
+    "eslint": "latest",
+    "kpow": "latest",
     "rollup": "latest",
-    "rollup-plugin-babel": "latest",
-    "tape": "latest",
-    "testling": "latest",
-    "uglify-js": "latest"
+    "tape": "latest"
   },
   "author": "sChzs BkgNns <sotirios.bakagiannis@gmail.com> (https://www.thewhodidthis.com)",
   "license": "Unlicense"
