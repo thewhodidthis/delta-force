@@ -1,19 +1,17 @@
 'use strict';
 
 var v3 = [0, 0, 0];
-var bipolar = function bipolar(a, b, c) {
+var bipolar = function (a, b, c) {
   var memo = [a, b, c];
 
   return function (x, y, z) {
     var next = [x, y, z];
-    var diff = memo.map(function (v, i) {
-      return next[i] - v;
-    });
+    var diff = memo.map(function (v, i) { return next[i] - v; });
 
     memo = next;
 
-    return diff;
-  };
+    return diff
+  }
 };
 
 // -1: idle, 0: left, 1: middle, 2: right
@@ -23,11 +21,11 @@ var force = v3;
 
 var off = document.removeEventListener;
 
-var mouseMove = function mouseMove(e) {
+var mouseMove = function (e) {
   delta = force(e.clientX, e.clientY, 0);
 };
 
-var mouseUp = function mouseUp() {
+var mouseUp = function () {
   state = -1;
 
   off('mouseup', mouseUp);
@@ -44,7 +42,7 @@ on('mousedown', function (e) {
   on('mousemove', mouseMove);
 });
 
-var handleTouch = function handleTouch(e, fn) {
+var handleTouch = function (e, fn) {
   var x = e.touches[0].pageX;
   var y = e.touches[0].pageY;
 
@@ -54,10 +52,10 @@ var handleTouch = function handleTouch(e, fn) {
     var dx = x - e.touches[1].pageX;
     var dy = y - e.touches[1].pageY;
 
-    dsq = dx * dx + dy * dy;
+    dsq = (dx * dx) + (dy * dy);
   }
 
-  return fn(x, y, dsq);
+  return fn(x, y, dsq)
 };
 
 on('touchstart', function (e) {
@@ -82,14 +80,15 @@ on('wheel', function (e) {
   delta = [0, 0, e.deltaY];
 }, { passive: true });
 
-var deltaForce = function deltaForce() {
+var deltaForce = function () {
   var x = delta[0];
   var y = delta[1];
   var z = delta[2];
 
   delta = v3;
 
-  return { x: x, y: y, z: z, code: state };
+  return { x: x, y: y, z: z, code: state }
 };
 
 module.exports = deltaForce;
+
