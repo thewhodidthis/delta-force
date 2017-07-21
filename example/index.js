@@ -1,7 +1,7 @@
 (function () {
 'use strict';
 
-var v3 = [0, 0, 0];
+var scratch = [0, 0, 0];
 var bipolar = function (a, b, c) {
   var memo = [a, b, c];
 
@@ -17,8 +17,8 @@ var bipolar = function (a, b, c) {
 
 // -1: idle, 0: left, 1: middle, 2: right
 var state = -1;
-var delta = v3;
-var force = v3;
+var delta = scratch;
+var force = scratch;
 
 var off = document.removeEventListener;
 
@@ -86,7 +86,8 @@ var deltaForce = function () {
   var y = delta[1];
   var z = delta[2];
 
-  delta = v3;
+  // Reset on each call
+  delta = scratch;
 
   return { x: x, y: y, z: z, code: state }
 };
