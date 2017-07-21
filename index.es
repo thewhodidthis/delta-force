@@ -1,4 +1,4 @@
-const v3 = [0, 0, 0]
+const scratch = [0, 0, 0]
 const bipolar = (a, b, c) => {
   let memo = [a, b, c]
 
@@ -14,8 +14,8 @@ const bipolar = (a, b, c) => {
 
 // -1: idle, 0: left, 1: middle, 2: right
 let state = -1
-let delta = v3
-let force = v3
+let delta = scratch
+let force = scratch
 
 const off = document.removeEventListener
 
@@ -83,7 +83,8 @@ const deltaForce = () => {
   const y = delta[1]
   const z = delta[2]
 
-  delta = v3
+  // Reset on each call
+  delta = scratch
 
   return { x, y, z, code: state }
 }
