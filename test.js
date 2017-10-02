@@ -1,7 +1,8 @@
-require('kpow')()
-
+const kpow = require('kpow')
 const test = require('tape')
 const deltaForce = require('./')
+
+kpow()
 
 test('will return', (t) => {
   t.equal(typeof deltaForce, 'function', 'returns lamda on init')
