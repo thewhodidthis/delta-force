@@ -3,5 +3,6 @@
 
 ### Setup
 ```sh
-npm install delta-force
+# Fetch latest from github
+npm i thewhodidthis/delta-force
 ```
