@@ -1,17 +1,14 @@
-const kpow = require('kpow')
-const test = require('tape')
-const deltaForce = require('./')
+import 'cutaway'
+import { report, assert } from 'tapeless'
 
-kpow()
+import deltaForce from './index.es'
 
-test('will return', (t) => {
-  t.equal(typeof deltaForce, 'function', 'returns lamda on init')
-  t.end()
-})
+const { equal } = assert
 
-test('will report', (t) => {
-  const data = deltaForce()
+equal(typeof deltaForce, 'function', 'returns lamda on init', 'will return')
 
-  t.equal(data.code, -1, 'nothing')
-  t.end()
-})
+const data = deltaForce()
+
+equal(data.code, -1, 'nada', 'will report')
+
+report()
