@@ -1,4 +1,4 @@
-import deltaForce from '../index.es'
+import tracker from '../index.es'
 
 const info = document.createElement('pre')
 const cube = document.querySelector('.cube')
@@ -8,10 +8,11 @@ const spin = { x: 0, y: 0 }
 
 let zoom = 1
 
+const update = tracker()
 const render = () => {
-  const data = deltaForce()
+  const data = update()
 
-  switch (data.code) {
+  switch (data.state) {
   case 0:
     spin.x += data.x
     spin.y += data.y
@@ -30,12 +31,12 @@ const render = () => {
     break
   }
 
-  if (data.code >= 0) {
+  if (data.state >= 0) {
     info.innerHTML = `
       x: ${data.x},
       y: ${data.y},
       z: ${data.z.toFixed(2)},
-      code: ${data.code}
+      state: ${data.state}
     `
   }
 
@@ -50,6 +51,9 @@ const render = () => {
 }
 
 document.body.insertBefore(info, cube)
+document.addEventListener('touchstart', (e) => {
+  e.preventDefault()
+})
 document.addEventListener('contextmenu', (e) => {
   e.preventDefault()
 })
