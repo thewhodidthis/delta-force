@@ -1,4 +1,4 @@
-> At least until pointer events come about
+> For now and keeping in mind that `PointerEvent.movementX/Y` might be the more obvious way to go in the near future.
 
 ### Setup
 ```sh
