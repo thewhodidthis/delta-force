@@ -4,12 +4,15 @@ import deltaForce from './index.es'
 
 const { equal, ok, notOk } = assert
 
-equal(typeof deltaForce, 'function', 'returns lamda on init', 'will return')
+const tracker = deltaForce()
 
-const { code, x, y, z } = deltaForce()
+equal(typeof tracker, 'function', 'returns lamda on init', 'will return')
 
-equal(code, -1, 'nada', 'will report')
+const { state, x, y, z } = tracker()
+
+equal(state, -1, 'nada', 'will report')
 notOk(x)
+
 ok(x === y)
 ok(y === z)
 
