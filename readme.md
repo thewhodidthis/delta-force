@@ -10,7 +10,9 @@ npm i thewhodidthis/delta-force
 ```js
 import tracker from 'delta-force'
 
+const update = tracker(/* some element, document by default */)
+
 setInterval(() => {
-  console.table(tracker())
+  console.table(update())
 }, 1000)
 ```
