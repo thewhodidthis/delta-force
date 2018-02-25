@@ -1,6 +1,6 @@
 import 'cutaway'
 import { report, assert } from 'tapeless'
-import deltaForce from './index.es'
+import deltaForce from './index.mjs'
 
 const { equal, ok, notOk } = assert
 
