@@ -1,6 +1,6 @@
 {
   "name": "delta-force",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Helps track pointer move",
   "main": "index",
   "module": "index.mjs",
