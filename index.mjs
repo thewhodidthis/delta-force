@@ -1,3 +1,5 @@
+import { passiveListenerSupported } from './util'
+
 const tracker = (agent = document) => {
   // For resetting coords
   const point = [0, 0, 0]
@@ -70,7 +72,7 @@ const tracker = (agent = document) => {
   track('wheel', (e) => {
     state = 1
     score = [0, 0, e.deltaY]
-  })
+  }, passiveListenerSupported() ? { passive: true } : false)
 
   // To be called periodically
   return () => {

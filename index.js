@@ -1,5 +1,23 @@
 'use strict';
 
+// https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#Safely_detecting_option_support
+const passiveListenerSupported = () => {
+  let flag = false;
+
+  try {
+    const options = Object.defineProperty({}, 'passive', {
+      get() {
+        flag = true;
+      }
+    });
+
+    window.addEventListener('test', options, options);
+    window.removeEventListener('test', options, options);
+  } catch (x) {}
+
+  return flag
+};
+
 const tracker = (agent = document) => {
   // For resetting coords
   const point = [0, 0, 0];
@@ -72,7 +90,7 @@ const tracker = (agent = document) => {
   track('wheel', (e) => {
     state = 1;
     score = [0, 0, e.deltaY];
-  });
+  }, passiveListenerSupported() ? { passive: true } : false);
 
   // To be called periodically
   return () => {
