@@ -130,8 +130,6 @@
       move.y += data.y;
 
       break
-    default:
-      break
     }
 
     if (data.state >= 0) {
