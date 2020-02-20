@@ -2,30 +2,33 @@
   "name": "delta-force",
   "version": "1.0.6",
   "description": "Helps track pointer move",
-  "main": "index",
-  "module": "index.mjs",
+  "keywords": [
+    "pointer",
+    "mouse",
+    "delta"
+  ],
   "homepage": "https://github.com/thewhodidthis/delta-force#readme",
+  "bugs": {
+    "url": "https://github.com/thewhodidthis/delta-force/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/thewhodidthis/delta-force.git"
   },
-  "bugs": {
-    "url": "https://github.com/thewhodidthis/delta-force/issues"
-  },
+  "license": "Unlicense",
+  "author": "sChzs BkgNns <sotirios.bakagiannis@gmail.com> (https://www.thewhodidthis.com)",
+  "main": "index",
+  "module": "index.mjs",
   "scripts": {
-    "pretest": "eslint test.js",
-    "test": "rollup -c -f iife test.js | kpow",
+    "preexample": "eslint example/index.js",
+    "example": "cd example; rollup -f iife -o bundle.js index.js",
     "prestart": "eslint index.mjs",
     "start": "rollup -f cjs -o index.js index.mjs",
-    "preexample": "eslint example/index.js",
-    "example": "cd example; rollup -f iife -o bundle.js index.js"
+    "pretest": "eslint test.js",
+    "test": "rollup -c -f iife test.js | kpow"
   },
   "eslintConfig": {
     "extends": "@thewhodidthis"
-  },
-  "engines": {
-    "node": ">=6.11.0",
-    "npm": ">=3.10.10"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^7.1.1",
@@ -36,11 +39,8 @@
     "rollup": "^1.31.1",
     "tapeless": "^0.0.9"
   },
-  "keywords": [
-    "pointer",
-    "mouse",
-    "delta"
-  ],
-  "author": "sChzs BkgNns <sotirios.bakagiannis@gmail.com> (https://www.thewhodidthis.com)",
-  "license": "Unlicense"
+  "engines": {
+    "node": ">=6.11.0",
+    "npm": ">=3.10.10"
+  }
 }
