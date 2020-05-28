@@ -1,12 +1,18 @@
-> For now and keeping in mind that `PointerEvent.movementX/Y` might be the more obvious way to go in the near future.
+## about
 
-### Setup
+Simplifies mouse tracking keeping in mind that `PointerEvent.movementX/Y` might be the more obvious way to go in the near future.
+
+## setup
+
+Fetch latest from GitHub,
+
 ```sh
-# Fetch latest from github
+# Includes ESM and CJS versions
 npm i thewhodidthis/delta-force
 ```
 
-### Usage
+## usage
+
 ```js
 import tracker from 'delta-force'
 
