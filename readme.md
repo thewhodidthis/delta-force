@@ -13,6 +13,8 @@ npm i thewhodidthis/delta-force
 
 ## usage
 
+Initialize with a DOM selector, then call repeatedly for delta values `{ x, y, z, state }`,
+
 ```js
 import tracker from 'delta-force'
 
