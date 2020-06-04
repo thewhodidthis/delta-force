@@ -4,7 +4,7 @@ Simplifies mouse tracking keeping in mind that `PointerEvent.movementX/Y` might 
 
 ## setup
 
-Fetch latest from GitHub,
+Fetch latest from GitHub directly:
 
 ```sh
 # Includes ESM and CJS versions
