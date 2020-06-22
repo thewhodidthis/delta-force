@@ -4,11 +4,11 @@ Simplifies mouse tracking keeping in mind that `PointerEvent.movementX/Y` might 
 
 ## setup
 
-Fetch latest from GitHub directly:
+Fetch the [latest version](https://npm.im/delta-force) from the _npm_ registry:
 
 ```sh
-# Includes ESM and CJS versions
-npm i thewhodidthis/delta-force
+# Includes ES and CJS modules
+npm install thewhodidthis/delta-force
 ```
 
 ## usage
