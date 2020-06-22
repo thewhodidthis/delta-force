@@ -1,4 +1,4 @@
-import { passiveListenerSupported } from './util'
+import { passiveListenerSupported } from './helper.js'
 
 const tracker = (agent = document) => {
   // For resetting coords
